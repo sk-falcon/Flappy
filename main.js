@@ -4,9 +4,9 @@ var mainState = {
 
   // Load Images, Sound
   preload: function() {
-    //Load bird sprite
-    game.load.image('bird', 'assets/bird.png');
-    game.load.image('pipe', 'assets/pipe.png');
+    //Load ice_cube sprite
+    game.load.image('ice_cube', 'assets/ice_cube.png');
+    game.load.image('beer_mug', 'assets/beer_mug.png');
 
   },
 
@@ -23,43 +23,43 @@ var mainState = {
     // Set the game Physic System
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    // Display the bird
-    this.bird = game.add.sprite(100, 245, 'bird');
+    // Display the ice_cube
+    this.ice_cube = game.add.sprite(100, 400, 'ice_cube');
 
     //Create an empty group
-    this.pipes = game.add.group();
+    this.beer_mugs = game.add.group();
 
-    // Add physics to bird
-    game.physics.arcade.enable(this.bird);
+    // Add physics to ice_cube
+    game.physics.arcade.enable(this.ice_cube);
 
-    //Add gravity to bird body
-    this.bird.body.gravity.y = 1000;
+    //Add gravity to ice_cube body
+    this.ice_cube.body.gravity.y = 1000;
 
     //Call jump func when space key is hit
     var spaceKey = game.input.keyboard.addKey(
                     Phaser.Keyboard.SPACEBAR);
     spaceKey.onDown.add(this.jump, this);
 
-    //run timer to add pipes
-    this.timer = game.time.events.loop(1500, this.addRowOfPipes, this);
+    //run timer to add beer_mugs
+    this.timer = game.time.events.loop(2000, this.addRowOfbeer_mugs, this);
 
   },
 
   // Game Logic
   update: function() {
 
-    //Out of screen bird, call the restart function
-    if (this.bird.y < 0 || this.bird.y > 490)
+    //Out of screen ice_cube, call the restart function
+    if (this.ice_cube.y < 0 || this.ice_cube.y > 1920)
       this.restartGame();
 
     game.physics.arcade.overlap(
-      this.bird, this.pipes, this.restartGame, null, this);
+      this.ice_cube, this.beer_mugs, this.restartGame, null, this);
 
   },
 
-  // Make the bird jump
+  // Make the ice_cube jump
   jump: function() {
-    this.bird.body.velocity.y = -350;
+    this.ice_cube.body.velocity.y = -600;
   },
 
   // Restart the game
@@ -69,36 +69,36 @@ var mainState = {
     game.state.start('main');
   },
 
-  //Create a pipe at location x, y
-  addOnePipe: function(x, y) {
+  //Create a beer_mug at location x, y
+  addOnebeer_mug: function(x, y) {
 
-    //Create a pipe sprite
-    var pipe = game.add.sprite(x, y, 'pipe');
+    //Create a beer_mug sprite
+    var beer_mug = game.add.sprite(x, y, 'beer_mug');
 
-    //Add the pipe to group
-    this.pipes.add(pipe);
+    //Add the beer_mug to group
+    this.beer_mugs.add(beer_mug);
 
-    //enable physics on the pipe
-    game.physics.arcade.enable(pipe);
+    //enable physics on the beer_mug
+    game.physics.arcade.enable(beer_mug);
 
     //add velocity
-    pipe.body.velocity.x = -200;
+    beer_mug.body.velocity.x = -200;
 
-    //kill pipe when not in screen
-    pipe.checkWorldBounds = true;
-    pipe.outOfBoundsKill = true;
+    //kill beer_mug when not in screen
+    beer_mug.checkWorldBounds = true;
+    beer_mug.outOfBoundsKill = true;
 
   },
 
-  addRowOfPipes: function() {
+  addRowOfbeer_mugs: function() {
 
-    //Pick a number between 1 and 5
-    var hole = Math.floor(Math.random()*5) + 1;
+    //Pick a number between 1 and 4
+    var hole = Math.floor(Math.random()*4) + 1;
 
-    //Add the 5 pipes
-    for(var i=0; i<8; i++)
+    //Add the 5 beer_mugs
+    for(var i=0; i<10; i++)
       if(i!=hole && i!=hole+1 && i!=hole+2)
-        this.addOnePipe(400, i * 60 +10);
+        this.addOnebeer_mug(400, i * 110 + 10);
 
     //Update Score
     this.score += 1;
@@ -109,7 +109,7 @@ var mainState = {
 };
 
 // Initialise phaser; Create new screen
-var game = new Phaser.Game(400, 490);
+var game = new Phaser.Game(1920, 1080);
 
 //Add mainState as 'main'
 game.state.add('main', mainState);
